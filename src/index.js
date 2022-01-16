@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom";
-
+import React, { Component } from "react"; //상태 및 수명 주기예제에 필요
 // import App from "./App";
 
 // // const rootElement = document.getElementById("root");
@@ -55,44 +55,110 @@ import ReactDOM from "react-dom";
 // );
 
 //Comment예제
-function formatDate(date) {
-  return date.toLocaleDateString();
-}
+// function formatDate(date) {
+//   return date.toLocaleDateString();
+// }
 
-function Avatar(props) {
-  return (
-    <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
-  );
-}
+// function Avatar(props) {
+//   return (
+//     <img className="Avatar" src={props.user.avatarUrl} alt={props.user.name} />
+//   );
+// }
 
-function UserInfo(props) {
-  return (
-    <div className="UserInfo">
-      <Avatar user={props.user} />
-      <div className="UserInfo-name">{props.user.name}</div>
-    </div>
-  );
-}
+// function UserInfo(props) {
+//   return (
+//     <div className="UserInfo">
+//       <Avatar user={props.user} />
+//       <div className="UserInfo-name">{props.user.name}</div>
+//     </div>
+//   );
+// }
 
-function Comment(props) {
-  return (
-    <div className="Comment">
-      <UserInfo user={props.author} />
-      <div className="Comment-text">{props.text}</div>
-      <div className="Comment-date">{formatDate(props.date)}</div>
-    </div>
-  );
-}
+// function Comment(props) {
+//   return (
+//     <div className="Comment">
+//       <UserInfo user={props.author} />
+//       <div className="Comment-text">{props.text}</div>
+//       <div className="Comment-date">{formatDate(props.date)}</div>
+//     </div>
+//   );
+// }
 
-const comment = {
-  date: new Date(),
-  text: "I hope you enjoy learning React!",
-  author: {
-    name: "Hello Kitty",
-    avatarUrl: "https://placekitten.com/g/64/64"
+// const comment = {
+//   date: new Date(),
+//   text: "I hope you enjoy learning React!",
+//   author: {
+//     name: "Hello Kitty",
+//     avatarUrl: "https://placekitten.com/g/64/64"
+//   }
+// };
+// ReactDOM.render(
+//   <Comment date={comment.date} text={comment.text} author={comment.author} />,
+//   document.getElementById("root")
+// );
+
+//상태 및 수명 주기예제
+// class Clock extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {date: new Date()};
+//   }
+
+//   componentDidMount() {//똑딱거리게함
+//     this.timerID = setInterval(
+//       () => this.tick(),
+//       1000
+//     );
+//   }
+
+//   componentWillUnmount() {//분해
+//     clearInterval(this.timerID);
+//   }
+
+//   tick() {
+//     this.setState({
+//       date: new Date()
+//     });
+//   }
+
+//   render() {
+//     return (
+//       <div>
+//         <h1>Hello, world!</h1>
+//         <h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+//       </div>
+//     );
+//   }
+// }
+
+// ReactDOM.render(
+//   <Clock />,
+//   document.getElementById('root')
+// );
+
+//이벤트예제
+class Toggle extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isToggleOn: true };
+
+    // This binding is necessary to make `this` work in the callback
+    this.handleClick = this.handleClick.bind(this);
   }
-};
-ReactDOM.render(
-  <Comment date={comment.date} text={comment.text} author={comment.author} />,
-  document.getElementById("root")
-);
+
+  handleClick() {
+    this.setState((prevState) => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.isToggleOn ? "ON" : "OFF"}
+      </button>
+    );
+  }
+}
+
+ReactDOM.render(<Toggle />, document.getElementById("root"));
